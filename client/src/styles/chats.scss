@@ -3,16 +3,18 @@
 .sr-container {
   height: 100%;
   max-width: 21rem;
-  position: fixed;
-  right: 0;
-  top: 0;
-  background-color: #18181b;
+  // position: fixed;
+  // right: 0;
+  // top: 0;
+  flex-shrink: 1;
+  background-color: var(--scondary-color);
   border-radius: 5px;
 }
 .sr-wrappe {
   height: 100%;
   display: flex;
   flex-direction: column;
+  background-color: var(--scondary-color);
 }
 .sr-top {
   padding: 1rem;
@@ -26,21 +28,30 @@
     display: flex;
     flex-direction: column;
     row-gap: 10px;
-    padding: 10px;
+    padding: 10px 10px 3rem 10px;
   }
-
-  .message {
-    display: inline-block;
+  .chat {
     padding: 10px;
     border-radius: 8px;
-    color: white;
+  }
+  .c-right {
     background-color: var(--primary-color);
+    align-self: flex-end;
+  }
+  .c-left {
+    align-self: flex-start;
+    background-color: var(--color-violet);
+  }
+  .text {
+    display: inline-block;
+    color: white;
+    overflow-wrap: anywhere;
   }
 }
 
 .sr-bottom {
   display: flex;
-  flex-shrink: 1;
+  flex-shrink: 0;
   height: 2.5rem;
 
   .sr-input {
@@ -51,7 +62,7 @@
   }
   .sr-sent-button {
     width: 5rem;
-    background-color: #6c4de6;
+    background-color: var(--color-violet);
     border: none;
     color: white;
     font-size: 1rem;

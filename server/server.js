@@ -14,6 +14,9 @@ io.on("connection", (socket) => {
     socket.to(room).emit("update-game", index);
   });
 
+  socket.on("room-message", ({ room, message, name }) => {
+    socket.to(room).emit("message", { message, name });
+  });
 
   socket.on("disconnect", () => {
     console.log("User Disconnected");

@@ -9,51 +9,25 @@ body {
 }
 
 * {
-  --primary-color: #6c4de6;
+  --primary-color: #000000;
+  --scondary-color: #18181b;
+  --color-violet: #6c4de6;
+
+  --game-font: "Permanent Marker", cursive;
 }
 
-.app {
-  height: 100vh;
-  background-color: black;
-}
 .container {
-  height: 100%;
+  height: 100vh;
   display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: auto;
+  background-color: var(--primary-color);
 }
 
-.cell-wrappe {
-  display: grid;
-  grid-template-columns: repeat(3, 10rem);
-  grid-template-rows: repeat(3, 10rem);
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
-
-.cell {
-  border: 1px solid white;
-  color: white;
-  font-size: 3rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  &:nth-child(-n + 3) {
-    border-top: none;
-  }
-  &:nth-child(1n + 1) {
-    border-left: none;
-  }
-  &:nth-child(3n) {
-    border-right: none;
-  }
-  &:nth-child(8),
-  &:nth-child(7),
-  &:nth-child(9) {
-    border-bottom: none;
-  }
-}
-
 .join-room {
   max-width: 14rem;
 

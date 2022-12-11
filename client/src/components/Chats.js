@@ -1,15 +1,21 @@
+/** @format */
 
 import "../styles/chats.scss";
-import { faker } from "@faker-js/faker";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRef } from "react";
 
 function Chats({ socket, room, name }) {
   const chatsRef = useRef(null);
   const [message, setMessage] = useState("");
-  const [chats, setChats] = useState(
-    new Array(5).fill({ message: faker.lorem.paragraph(1) })
-  );
+  const [chats, setChats] = useState([
+   
+  ]);
+
+  useEffect(() => {
+    socket.on("message", (info) => {
+      setChats([...chats, info]);
+    });
+  });
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -28,9 +34,14 @@ function Chats({ socket, room, name }) {
           <div className="chats">
             {chats.map((chat, index) => {
               return (
-                <div key={index}>
-                  <div className="message">
-                    <span className="text">{chat.message}</span>
+                <div
+                  className={`chat ${
+                    chat?.from === "client" ? "c-right" : "c-left"
+                  }`}
+                  key={index}
+                >
+                  <div className="text">
+                    <span >{chat.message}</span>
                   </div>
                 </div>
               );
@@ -44,6 +55,8 @@ function Chats({ socket, room, name }) {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Send Message"
+            minlength="1"
+            required
           />
           <button type="submit" className="sr-sent-button">
             Send

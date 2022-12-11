@@ -9,7 +9,7 @@ function JoinRoom({ setName, setRoom, socket }) {
 
   const joinRoomNow = (e) => {
     e.preventDefault();
-    socket.on("join-room", { room: roomInput });
+    socket.emit("join-room",  roomInput );
     setName(nameInput);
     setRoom(roomInput);
   };
