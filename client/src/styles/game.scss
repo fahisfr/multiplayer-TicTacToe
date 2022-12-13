@@ -1,19 +1,15 @@
-/** @format */
-
 .game-container {
   flex-grow: 1;
   align-self: center;
-  position: relative;
-  
 }
 
 .cell-wrappe {
   display: grid;
-  grid-template-columns: repeat(3, 10rem);
-  grid-template-rows: repeat(3, 10rem);
+  grid-template-columns: repeat(3, minmax(0, 10rem));
+  grid-template-rows: repeat(3, minmax(0, 10rem));
   flex-grow: 1;
   justify-content: center;
-  padding-top: 1rem;
+  padding: 2rem;
 }
 
 .cell {
@@ -39,7 +35,6 @@
     border-bottom: none;
   }
 }
-/** @format */
 
 .gameresult {
   width: 100%;
@@ -57,17 +52,18 @@
 .gr {
   color: white;
   font-family: var(--game-font);
-button {
-  max-width: 16rem;
-  width: 100%;
-  border: 1px solid var(--color-violet);
-  box-shadow: 0 0 0 2px var(--color-violet);
-  height: 2.5rem;
-  background: none;
-  font-size: 15px;
-  font-weight: 600;
-  border-radius: 8px;
-  color: var(--color-violet);
+  text-align: center;
+  font-size: 1.5rem;
+  button {
+    margin-top: 1rem;
+    border: 1px solid var(--color-violet);
+    box-shadow: 0 0 0 2px var(--color-violet);
+    height: 2.5rem;
+    background: none;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 10px;
+    color: var(--color-violet);
+  }
 }
-}
-

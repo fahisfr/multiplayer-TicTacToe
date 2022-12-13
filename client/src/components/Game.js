@@ -1,4 +1,3 @@
-/** @format */
 import "../styles/game.scss";
 import React, { useEffect, useState } from "react";
 
@@ -8,25 +7,38 @@ function Game({ socket, room }) {
   const [canPay, setCanPlay] = useState(true);
   const [board, setBoard] = useState(initialBoard);
   const [gameResult, setGameResult] = useState("");
-  const [playAgin, setPlayAgin] = useState(false);
-
-  useEffect(() => {
-    socket.on("update-game", (index) => {
-      updateGame(index, "0");
-    });
-    socket.on("play-agin", () => {
-      if (playAgin) {
-        setBoard(initialBoard);
-        setGameResult("");
-        setCanPlay(true);
-      }
-    });
+  const [playAgin, setPlayAgin] = useState({
+    me: false,
+    opponent: false,
   });
+  const resetGame = () => {
+    setBoard(initialBoard);
+    setCanPlay(true);
+    setPlayAgin({ me: false, opponent: true });
+    setGameResult("");
+  };
   const updateGame = (index, text) => {
     const oldBoard = [...board];
     oldBoard[index] = text;
+    setCanPlay(!canPay);
     setBoard(oldBoard);
-
+  };
+  useEffect(() => {
+    socket.on("update-game", (index) => {
+      updateGame(index, "o");
+      setCanPlay(true);
+    });
+    socket.on("reset", () => {
+      if (playAgin.me) {
+        resetGame();
+      }
+      setPlayAgin({
+        me: false,
+        opponent: true,
+      });
+    });
+  });
+  useEffect(() => {
     const combs = [
       [0, 1, 2],
       [3, 4, 5],
@@ -44,23 +56,32 @@ function Game({ socket, room }) {
         board[comb[1]] === board[comb[2]] &&
         board[comb[0]] !== ""
       ) {
-        console.log(oldBoard);
-        setGameResult(board[comb[[0]]] == "x" ? "you won" : "you losse");
+        setGameResult(board[comb[[0]]] === "x" ? "you woin" : "you losse");
       }
     }
 
     if (!board.includes("")) {
       setGameResult("drew");
     }
-
-    return;
-  };
+  }, [board]);
 
   const onClick = (index) => {
-    if (canPay) {
+    if (canPay && board[index] === "") {
       socket.emit("play", { index, room });
       updateGame(index, "x");
     }
+  };
+
+  const playAginNow = () => {
+    socket.emit("play-agin", room);
+    if (playAgin.opponent) {
+      resetGame();
+      return;
+    }
+    setPlayAgin({
+      me: true,
+      opponent: false,
+    });
   };
 
   return (
@@ -68,17 +89,9 @@ function Game({ socket, room }) {
       {gameResult && (
         <div className="gameresult">
           <div className="gr">
-            <h1>You win</h1>
-            <button
-              onClick={() => {
-                socket.emit("play-agin", room);
-                setPlayAgin(true);
-              }}
-            >
-              {
-                playAgin ? "Loading": "Play Agin"
-              }
-             
+            <h1>{gameResult}</h1>
+            <button onClick={playAginNow}>
+              {playAgin.me ? "Waiting for your opponent" : "Play Agin"}
             </button>
           </div>
         </div>

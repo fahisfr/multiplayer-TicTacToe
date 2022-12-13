@@ -1,19 +1,16 @@
-/** @format */
-
 import "../styles/chats.scss";
 import React, { useEffect, useState } from "react";
 import { useRef } from "react";
 
-function Chats({ socket, room, name }) {
+function Chats({ socket, room, name, trigger, setTrigger }) {
   const chatsRef = useRef(null);
   const [message, setMessage] = useState("");
-  const [chats, setChats] = useState([
-   
-  ]);
+  const [chats, setChats] = useState([]);
 
   useEffect(() => {
     socket.on("message", (info) => {
       setChats([...chats, info]);
+      chatsRef.current?.scrollIntoView({ behavior: "smooth" });
     });
   });
 
@@ -24,13 +21,14 @@ function Chats({ socket, room, name }) {
     chatsRef.current?.scrollIntoView({ behavior: "smooth" });
     setMessage("");
   };
-  return (
-    <div className="sr-container">
-      <div className="sr-wrappe">
-        <div className="sr-top">
+  return trigger ? (
+    <div className="ct-container">
+      <div className="ct-close" onClick={() => setTrigger(false)}></div>
+      <div className="ct-wrappe">
+        <div className="ct-top">
           <span>Your In Room {room}</span>
         </div>
-        <div className="sr-center">
+        <div className="ct-center">
           <div className="chats">
             {chats.map((chat, index) => {
               return (
@@ -40,8 +38,10 @@ function Chats({ socket, room, name }) {
                   }`}
                   key={index}
                 >
+                  {chat.name && <h4>{chat.name}</h4>}
+
                   <div className="text">
-                    <span >{chat.message}</span>
+                    <span>{chat.message}</span>
                   </div>
                 </div>
               );
@@ -49,21 +49,23 @@ function Chats({ socket, room, name }) {
             <div ref={chatsRef}></div>
           </div>
         </div>
-        <form className="sr-bottom" onSubmit={onSubmit}>
+        <form className="ct-bottom" onSubmit={onSubmit}>
           <input
-            className="sr-input"
+            className="ct-input"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Send Message"
             minlength="1"
             required
           />
-          <button type="submit" className="sr-sent-button">
+          <button type="submit" className="ct-sent-button">
             Send
           </button>
         </form>
-      </div>
+      </div>{" "}
     </div>
+  ) : (
+    ""
   );
 }
 

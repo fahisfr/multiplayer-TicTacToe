@@ -1,15 +1,14 @@
-/** @format */
-
 import React, { useState } from "react";
 import "../styles/joinRoom.scss";
+import { faker } from "@faker-js/faker";
 
 function JoinRoom({ setName, setRoom, socket }) {
-  const [nameInput, setNameInput] = useState("fahis");
-  const [roomInput, setRoomInput] = useState("12345");
+  const [nameInput, setNameInput] = useState(faker.name.firstName() ?? "");
+  const [roomInput, setRoomInput] = useState("");
 
   const joinRoomNow = (e) => {
     e.preventDefault();
-    socket.emit("join-room",  roomInput );
+    socket.emit("join-room", { room: roomInput, name: nameInput });
     setName(nameInput);
     setRoom(roomInput);
   };
@@ -43,7 +42,6 @@ function JoinRoom({ setName, setRoom, socket }) {
             required
           />
         </div>
-
         <button className="jr-button" type="submit">
           Join Room
         </button>

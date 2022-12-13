@@ -1,34 +1,26 @@
-/** @format */
+.ct-wrappe {
+  position: relative;
+  width: Min(21rem, 100%);
 
-.sr-container {
   height: 100%;
-  max-width: 21rem;
-  // position: fixed;
-  // right: 0;
-  // top: 0;
-  flex-shrink: 1;
-  background-color: var(--scondary-color);
-  border-radius: 5px;
-}
-.sr-wrappe {
-  height: 100%;
+  z-index: 999;
   display: flex;
   flex-direction: column;
   background-color: var(--scondary-color);
 }
-.sr-top {
+.ct-top {
   padding: 1rem;
   color: white;
   border-bottom: 1px solid black;
 }
-.sr-center {
+.ct-center {
   flex-grow: 1;
-  overflow: auto;
+  overflow: auto; padding: 10px 10px 5rem 10px;
   .chats {
     display: flex;
     flex-direction: column;
     row-gap: 10px;
-    padding: 10px 10px 3rem 10px;
+   
   }
   .chat {
     padding: 10px;
@@ -49,22 +41,46 @@
   }
 }
 
-.sr-bottom {
+.ct-bottom {
   display: flex;
-  flex-shrink: 0;
   height: 2.5rem;
-
-  .sr-input {
-    flex-grow: 1;
+  flex-shrink: 0;
+  .ct-input {
+    width: 100%;
+    padding-left: 1rem;
     outline: none;
-    padding: 0 10px;
-    font-size: 15px;
   }
-  .sr-sent-button {
-    width: 5rem;
+  .ct-sent-button {
+    width: 6rem;
     background-color: var(--color-violet);
     border: none;
     color: white;
     font-size: 1rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .ct-container {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    display: flex;
+    justify-content: flex-end;
+    background-color: #00000027;
+  }
+  .ct-wrappe {
+    width: Min(21rem, 85%);
+  }
+  .ct-close {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(0, 0, 0);
+    opacity: 0.4;
   }
 }
